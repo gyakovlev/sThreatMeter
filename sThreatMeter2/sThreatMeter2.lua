@@ -261,8 +261,8 @@ local function OnEvent(self, event, ...)
 			sThreatMeter_Data.MyThreatIndicatorColor = { 1, 0, 0 };
 		end
 		self:SetPoint(unpack(sThreatMeter_Data.Point));
-		self:SetWidth(sThreatMeter_Data.Width);
-		self:SetHeight(sThreatMeter_Data.Height);
+		self:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width-2));
+		self:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height-2));
 		self:UnregisterEvent(event);
 	elseif ( event == "UNIT_THREAT_LIST_UPDATE" ) then
 		if ( unit and UnitExists(unit) and UnitGUID(unit) == threatguid and UnitCanAttack("player", threatunit) ) then

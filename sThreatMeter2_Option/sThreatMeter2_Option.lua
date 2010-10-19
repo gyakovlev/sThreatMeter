@@ -94,8 +94,8 @@ local function UpdateBars(msg, toggle)
 	for i=1, 10, 1 do
 		bar = _G["sThreatMeterBar"..i];
 		if ( bar ) then
-			bar:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width));
-			bar:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height));
+			bar:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width-2));
+			bar:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height-2));
 			bar:SetStatusBarTexture(sThreatMeter_Data.Texture);
 			if ( type(sThreatMeter_Data.Color) == "table" ) then
 				bar:SetStatusBarColor(unpack(sThreatMeter_Data.Color));
@@ -176,7 +176,7 @@ local function UpdateBars(msg, toggle)
 			bar.textright = bar:CreateFontString("$parentTextRight", "ARTWORK");
 			bar.textright:SetShadowOffset(1, -1);
 			bar.textright:SetJustifyH("RIGHT");
-			bar.textright:SetPoint("RIGHT", -1, 1);
+			bar.textright:SetPoint("RIGHT", TukuiDB.Scale(-1), TukuiDB.Scale(1));
 			
 			bar.textleft = bar:CreateFontString("$parentTextLeft", "ARTWORK");
 			bar.textleft:SetShadowOffset(1, -1);
@@ -254,8 +254,8 @@ local function UpdateBars(msg, toggle)
 			bar:Show();
 		end
 	end
-	sThreatMeter:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width));
-	sThreatMeter:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height));
+	sThreatMeter:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width-2));
+	sThreatMeter:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height-2));
 end
 
 local dropdownlist = {};
