@@ -121,8 +121,8 @@ local function UpdateThreatBars()
 		bar = threatbars[index];
 		if ( not bar ) then
 			bar = CreateFrame("StatusBar", "sThreatMeterBar"..index, UIParent);
-			bar:SetWidth(sThreatMeter_Data.Width);
-			bar:SetHeight(sThreatMeter_Data.Height);
+			bar:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width-2));
+			bar:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height-2));
 			bar:SetStatusBarTexture(sThreatMeter_Data.Texture);
 			bar:SetMinMaxValues(0, 100);
 			bar:SetValue(0);
@@ -130,34 +130,40 @@ local function UpdateThreatBars()
 				bar:SetPoint("TOP", sThreatMeter);
 			else
 				if ( sThreatMeter_Data.Direction == "down" ) then
-					bar:SetPoint("TOP", threatbars[index-1], "BOTTOM", 0, -sThreatMeter_Data.Spacing);
+					bar:SetPoint("TOP", threatbars[index-1], "BOTTOM", 0, TukuiDB.Scale(-sThreatMeter_Data.Spacing));
 				elseif ( sThreatMeter_Data.Direction == "right" ) then
-					bar:SetPoint("LEFT", threatbars[index-1], "RIGHT", sThreatMeter_Data.Spacing, 0);
+					bar:SetPoint("LEFT", threatbars[index-1], "RIGHT", TukuiDB.Scale(sThreatMeter_Data.Spacing), 0);
 				elseif ( sThreatMeter_Data.Direction == "left" ) then
-					bar:SetPoint("RIGHT", threatbars[index-1], "LEFT", -sThreatMeter_Data.Spacing, 0);
+					bar:SetPoint("RIGHT", threatbars[index-1], "LEFT", TukuiDB.Scale(-sThreatMeter_Data.Spacing), 0);
 				else
-					bar:SetPoint("BOTTOM", threatbars[index-1], "TOP", 0, sThreatMeter_Data.Spacing);
+					bar:SetPoint("BOTTOM", threatbars[index-1], "TOP", 0, TukuiDB.Scale(sThreatMeter_Data.Spacing));
 				end
 			end
+			bar.bg = CreateFrame("Frame","$parentBG",bar)
+			bar.bg:SetPoint("TOPLEFT", bar, "TOPLEFT",TukuiDB.Scale(-2),TukuiDB.Scale(2))
+			bar.bg:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT",TukuiDB.Scale(2),TukuiDB.Scale(-2))
+			bar.bg:SetFrameStrata"LOW"
+			TukuiDB.SetTemplate(bar.bg)
 			
 			bar.background = bar:CreateTexture("$parentBackground", "BACKGROUND");
 			bar.background:SetAllPoints();
 			bar.background:SetTexture(sThreatMeter_Data.Texture);
+			bar.background:Hide()
 			
 			bar.textright = bar:CreateFontString("$parentTextRight", "ARTWORK");
 			bar.textright:SetFont(unpack(sThreatMeter_Data.Font));
 			bar.textright:SetShadowOffset(1, -1);
 			bar.textright:SetShadowColor(0, 0, 0, sThreatMeter_Data.FontShadowAlpha);
 			bar.textright:SetJustifyH("RIGHT");
-			bar.textright:SetPoint("RIGHT", -1, 1);
+			bar.textright:SetPoint("RIGHT", TukuiDB.Scale(-1), TukuiDB.Scale(1));
 			
 			bar.textleft = bar:CreateFontString("$parentTextLeft", "ARTWORK");
 			bar.textleft:SetFont(unpack(sThreatMeter_Data.Font));
 			bar.textleft:SetShadowOffset(1, -1);
 			bar.textleft:SetShadowColor(0, 0, 0, sThreatMeter_Data.FontShadowAlpha);
 			bar.textleft:SetJustifyH("LEFT");
-			bar.textleft:SetPoint("LEFT", 1, 1);
-			bar.textleft:SetPoint("RIGHT", bar.textright, "LEFT", -1, 1);
+			bar.textleft:SetPoint("LEFT", TukuiDB.Scale(1), TukuiDB.Scale(1));
+			bar.textleft:SetPoint("RIGHT", bar.textright, "LEFT", TukuiDB.Scale(-1), TukuiDB.Scale(1));
 			
 			tinsert(threatbars, bar);
 		end

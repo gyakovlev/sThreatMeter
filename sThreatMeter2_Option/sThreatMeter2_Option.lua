@@ -94,8 +94,8 @@ local function UpdateBars(msg, toggle)
 	for i=1, 10, 1 do
 		bar = _G["sThreatMeterBar"..i];
 		if ( bar ) then
-			bar:SetWidth(sThreatMeter_Data.Width);
-			bar:SetHeight(sThreatMeter_Data.Height);
+			bar:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width));
+			bar:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height));
 			bar:SetStatusBarTexture(sThreatMeter_Data.Texture);
 			if ( type(sThreatMeter_Data.Color) == "table" ) then
 				bar:SetStatusBarColor(unpack(sThreatMeter_Data.Color));
@@ -105,13 +105,13 @@ local function UpdateBars(msg, toggle)
 				bar:SetPoint("TOP", sThreatMeter);
 			else
 				if ( sThreatMeter_Data.Direction == "down" ) then
-					bar:SetPoint("TOP", _G["sThreatMeterBar"..i-1], "BOTTOM", 0, -sThreatMeter_Data.Spacing);
+					bar:SetPoint("TOP", _G["sThreatMeterBar"..i-1], "BOTTOM", 0, TukuiDB.Scale(-sThreatMeter_Data.Spacing));
 				elseif ( sThreatMeter_Data.Direction == "right" ) then
-					bar:SetPoint("LEFT", _G["sThreatMeterBar"..i-1], "RIGHT", sThreatMeter_Data.Spacing, 0);
+					bar:SetPoint("LEFT", _G["sThreatMeterBar"..i-1], "RIGHT", TukuiDB.Scale(sThreatMeter_Data.Spacing), 0);
 				elseif ( sThreatMeter_Data.Direction == "left" ) then
-					bar:SetPoint("RIGHT", _G["sThreatMeterBar"..i-1], "LEFT", -sThreatMeter_Data.Spacing, 0);
+					bar:SetPoint("RIGHT", _G["sThreatMeterBar"..i-1], "LEFT", TukuiDB.Scale(-sThreatMeter_Data.Spacing), 0);
 				else
-					bar:SetPoint("BOTTOM", _G["sThreatMeterBar"..i-1], "TOP", 0, sThreatMeter_Data.Spacing);
+					bar:SetPoint("BOTTOM", _G["sThreatMeterBar"..i-1], "TOP", 0, TukuiDB.Scale(sThreatMeter_Data.Spacing));
 				end
 			end
 			bar.background:SetTexture(sThreatMeter_Data.Texture);
@@ -163,9 +163,16 @@ local function UpdateBars(msg, toggle)
 			end);
 			bar:Hide();
 			
+			bar.bg = CreateFrame("Frame","$parentBG",bar)
+			bar.bg:SetPoint("TOPLEFT", bar, "TOPLEFT",TukuiDB.Scale(-2),TukuiDB.Scale(2))
+			bar.bg:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT",TukuiDB.Scale(2),TukuiDB.Scale(-2))
+			bar.bg:SetFrameStrata"LOW"
+			TukuiDB.SetTemplate(bar.bg)
+
 			bar.background = bar:CreateTexture("$parentBackground", "BACKGROUND");
 			bar.background:SetAllPoints();
-			
+			bar.background:Hide();
+						
 			bar.textright = bar:CreateFontString("$parentTextRight", "ARTWORK");
 			bar.textright:SetShadowOffset(1, -1);
 			bar.textright:SetJustifyH("RIGHT");
@@ -174,13 +181,13 @@ local function UpdateBars(msg, toggle)
 			bar.textleft = bar:CreateFontString("$parentTextLeft", "ARTWORK");
 			bar.textleft:SetShadowOffset(1, -1);
 			bar.textleft:SetJustifyH("LEFT");
-			bar.textleft:SetPoint("LEFT", 1, 1);
-			bar.textleft:SetPoint("RIGHT", bar.textright, "LEFT", -1, 1);
+			bar.textleft:SetPoint("LEFT", TukuiDB.Scale(1), TukuiDB.Scale(1));
+			bar.textleft:SetPoint("RIGHT", bar.textright, "LEFT", (-1), TukuiDB.Scale(1));
 		end
 		
 		bar:SetValue(testthreat[i].scaledPercent);
-		bar:SetWidth(sThreatMeter_Data.Width);
-		bar:SetHeight(sThreatMeter_Data.Height);
+		bar:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width-2));
+		bar:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height-2));
 		bar:SetStatusBarTexture(sThreatMeter_Data.Texture);
 		if ( type(sThreatMeter_Data.Color) == "string" ) then
 			class = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[testthreat[i].class] and CUSTOM_CLASS_COLORS[testthreat[i].class] or RAID_CLASS_COLORS[testthreat[i].class];
@@ -193,13 +200,13 @@ local function UpdateBars(msg, toggle)
 			bar:SetPoint("TOP", sThreatMeter);
 		else
 			if ( sThreatMeter_Data.Direction == "down" ) then
-				bar:SetPoint("TOP", _G["sThreatMeter2_OptionBar"..i-1], "BOTTOM", 0, -sThreatMeter_Data.Spacing);
+				bar:SetPoint("TOP", _G["sThreatMeter2_OptionBar"..i-1], "BOTTOM", 0, TukuiDB.Scale(-sThreatMeter_Data.Spacing));
 			elseif ( sThreatMeter_Data.Direction == "right" ) then
-				bar:SetPoint("LEFT", _G["sThreatMeter2_OptionBar"..i-1], "RIGHT", sThreatMeter_Data.Spacing, 0);
+				bar:SetPoint("LEFT", _G["sThreatMeter2_OptionBar"..i-1], "RIGHT", TukuiDB.Scale(sThreatMeter_Data.Spacing), 0);
 			elseif ( sThreatMeter_Data.Direction == "left" ) then
-				bar:SetPoint("RIGHT", _G["sThreatMeter2_OptionBar"..i-1], "LEFT", -sThreatMeter_Data.Spacing, 0);
+				bar:SetPoint("RIGHT", _G["sThreatMeter2_OptionBar"..i-1], "LEFT", TukuiDB.Scale(-sThreatMeter_Data.Spacing), 0);
 			else
-				bar:SetPoint("BOTTOM", _G["sThreatMeter2_OptionBar"..i-1], "TOP", 0, sThreatMeter_Data.Spacing);
+				bar:SetPoint("BOTTOM", _G["sThreatMeter2_OptionBar"..i-1], "TOP", 0, TukuiDB.Scale(sThreatMeter_Data.Spacing));
 			end
 		end
 		
@@ -247,8 +254,8 @@ local function UpdateBars(msg, toggle)
 			bar:Show();
 		end
 	end
-	sThreatMeter:SetWidth(sThreatMeter_Data.Width);
-	sThreatMeter:SetHeight(sThreatMeter_Data.Height);
+	sThreatMeter:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width));
+	sThreatMeter:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height));
 end
 
 local dropdownlist = {};
