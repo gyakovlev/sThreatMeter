@@ -1,9 +1,10 @@
 ## Interface: 40000
-## Title: |cffff00ffs|r|cffffffffThreatMeter2 [Option]|r
+## Title: |cffC495DDTukui|r |cffff00ffs|r|cffffffffThreatMeter2 [Option]|r
 ## Notes: Option von ThreatMeter2
 ## Author: Nils Ruesch
+## Modified by: Affli @ Howling Fjord (RU)
 ## Version: 101016
-## Dependencies: sThreatMeter2
+## Dependencies: sThreatMeter2, Tukui
 ## LoadOnDemand: 1
 
 locale\enUS.lua

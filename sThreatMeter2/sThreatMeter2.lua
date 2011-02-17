@@ -3,7 +3,7 @@
 	sThreatMeter2
 	Copyright (c) 2010, Nils Ruesch
 	All rights reserved.
-	
+	Modified by: Affli @ Howling Fjord (RU)
 ]]
 local T, C, L = unpack(Tukui)
 local threatguid, threatunit, threatlist, threatbars = "", "target", {}, {};

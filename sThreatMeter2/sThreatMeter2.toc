@@ -1,8 +1,10 @@
 ## Interface: 40000
-## Title: |cffff00ffs|r|cffffffffThreatMeter2|r
+## Title: |cffC495DDTukui|r |cffff00ffs|r|cffffffffThreatMeter2|r
 ## Notes: Bedrohungsanzeige.
 ## Author: Nils Ruesch
+## Modified by: Affli @ Howling Fjord (RU)
 ## Version: 101016
+## RequiredDeps: Tukui
 ## SavedVariables: sThreatMeter_Data
 
 sThreatMeter2.lua
