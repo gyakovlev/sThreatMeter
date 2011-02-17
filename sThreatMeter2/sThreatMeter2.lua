@@ -5,7 +5,7 @@
 	All rights reserved.
 	
 ]]
-
+local T, C, L = unpack(Tukui)
 local threatguid, threatunit, threatlist, threatbars = "", "target", {}, {};
 
 hooksecurefunc(InterfaceOptionsFrame, "Show", function()
@@ -121,8 +121,8 @@ local function UpdateThreatBars()
 		bar = threatbars[index];
 		if ( not bar ) then
 			bar = CreateFrame("StatusBar", "sThreatMeterBar"..index, UIParent);
-			bar:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width-2));
-			bar:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height-2));
+			bar:Width(sThreatMeter_Data.Width-2);
+			bar:Height(sThreatMeter_Data.Height-2);
 			bar:SetStatusBarTexture(sThreatMeter_Data.Texture);
 			bar:SetMinMaxValues(0, 100);
 			bar:SetValue(0);
@@ -130,20 +130,20 @@ local function UpdateThreatBars()
 				bar:SetPoint("TOP", sThreatMeter);
 			else
 				if ( sThreatMeter_Data.Direction == "down" ) then
-					bar:SetPoint("TOP", threatbars[index-1], "BOTTOM", 0, TukuiDB.Scale(-sThreatMeter_Data.Spacing));
+					bar:Point("TOP", threatbars[index-1], "BOTTOM", 0, -sThreatMeter_Data.Spacing);
 				elseif ( sThreatMeter_Data.Direction == "right" ) then
-					bar:SetPoint("LEFT", threatbars[index-1], "RIGHT", TukuiDB.Scale(sThreatMeter_Data.Spacing), 0);
+					bar:Point("LEFT", threatbars[index-1], "RIGHT", sThreatMeter_Data.Spacing, 0);
 				elseif ( sThreatMeter_Data.Direction == "left" ) then
-					bar:SetPoint("RIGHT", threatbars[index-1], "LEFT", TukuiDB.Scale(-sThreatMeter_Data.Spacing), 0);
+					bar:Point("RIGHT", threatbars[index-1], "LEFT", -sThreatMeter_Data.Spacing, 0);
 				else
-					bar:SetPoint("BOTTOM", threatbars[index-1], "TOP", 0, TukuiDB.Scale(sThreatMeter_Data.Spacing));
+					bar:Point("BOTTOM", threatbars[index-1], "TOP", 0, sThreatMeter_Data.Spacing);
 				end
 			end
 			bar.bg = CreateFrame("Frame","$parentBG",bar)
-			bar.bg:SetPoint("TOPLEFT", bar, "TOPLEFT",TukuiDB.Scale(-2),TukuiDB.Scale(2))
-			bar.bg:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT",TukuiDB.Scale(2),TukuiDB.Scale(-2))
+			bar.bg:Point("TOPLEFT", bar, "TOPLEFT",-2,2)
+			bar.bg:Point("BOTTOMRIGHT", bar, "BOTTOMRIGHT",2,-2)
 			bar.bg:SetFrameStrata"LOW"
-			TukuiDB.SetTemplate(bar.bg)
+			bar.bg:SetTemplate("Default")
 			
 			bar.background = bar:CreateTexture("$parentBackground", "BACKGROUND");
 			bar.background:SetAllPoints();
@@ -155,16 +155,14 @@ local function UpdateThreatBars()
 			bar.textright:SetShadowOffset(1, -1);
 			bar.textright:SetShadowColor(0, 0, 0, sThreatMeter_Data.FontShadowAlpha);
 			bar.textright:SetJustifyH("RIGHT");
-			bar.textright:SetPoint("RIGHT", TukuiDB.Scale(-1), TukuiDB.Scale(1));
+			bar.textright:SetPoint("RIGHT", -1, -1);
 			
 			bar.textleft = bar:CreateFontString("$parentTextLeft", "ARTWORK");
 			bar.textleft:SetFont(unpack(sThreatMeter_Data.Font));
 			bar.textleft:SetShadowOffset(1, -1);
 			bar.textleft:SetShadowColor(0, 0, 0, sThreatMeter_Data.FontShadowAlpha);
 			bar.textleft:SetJustifyH("LEFT");
-			bar.textleft:SetPoint("LEFT", TukuiDB.Scale(1), TukuiDB.Scale(1));
-			bar.textleft:SetPoint("RIGHT", bar.textright, "LEFT", TukuiDB.Scale(-1), TukuiDB.Scale(1));
-			
+			bar.textleft:SetPoint("LEFT", 1, -1);
 			tinsert(threatbars, bar);
 		end
 		
@@ -233,16 +231,17 @@ local function OnEvent(self, event, ...)
 			sThreatMeter_Data = {
 				Point = { "TOP", 0, -200 },
 				Direction = "down",
-				Spacing = 0,
+				Spacing = 6,
 				Width = 200,
-				Height = 15,
-				Texture = "Interface\\AddOns\\sThreatMeter2\\statusbar",
+				Height = 20,
+				Texture = "Interface\\AddOns\\Tukui\\medias\\textures\\normTex",
 				Color = "class",
 				BackgroundColor = { 0.5, 0.5, 0.5, 0.7 },
 				Bars = 5,
-				Font = { "Interface\\AddOns\\sThreatMeter2\\font.ttf", 10 },
+				Font = { "Interface\\AddOns\\Tukui\\medias\\fonts\\normal_font.ttf", 11, "OUTLINE" },
 				TextLeft = "$name",
-				TextRight = "$value [$perc%]",
+				TextRight = "$shortvalue [$perc%]",
+				FontShadowAlpha = 0,
 			};
 		end
 		if ( not sThreatMeter_Data.Animation ) then
@@ -261,8 +260,8 @@ local function OnEvent(self, event, ...)
 			sThreatMeter_Data.MyThreatIndicatorColor = { 1, 0, 0 };
 		end
 		self:SetPoint(unpack(sThreatMeter_Data.Point));
-		self:SetWidth(TukuiDB.Scale(sThreatMeter_Data.Width-2));
-		self:SetHeight(TukuiDB.Scale(sThreatMeter_Data.Height-2));
+		self:Width(sThreatMeter_Data.Width-2);
+		self:Height(sThreatMeter_Data.Height-2);
 		self:UnregisterEvent(event);
 	elseif ( event == "UNIT_THREAT_LIST_UPDATE" ) then
 		if ( unit and UnitExists(unit) and UnitGUID(unit) == threatguid and UnitCanAttack("player", threatunit) ) then
